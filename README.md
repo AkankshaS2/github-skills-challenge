@@ -2,7 +2,7 @@
 
 <img src="https://octodex.github.com/images/Professortocat_v2.png" align="right" height="200px" />
 
-
+ This aiops_pipeline is taking the service-dat from payment-service. The events are being processed through a pipeline where the producer produces the event the consumer consumes the even anomalies are detected.
 ### 1) Service being monitored
 - The monitored service is the payment-service.
 - It is a transaction-processing service whose health is tracked through:
