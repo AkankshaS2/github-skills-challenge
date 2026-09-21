@@ -91,6 +91,7 @@ These are unusual because they show:
 ## Part 4
 The aiops_pipeline.py does not display the detected events correctly.
 - Fixed it:
+- Updated the pipeline to process anomalies through one shared in-memory topic so the producer and consumer operate on the same event stream. This fixes the broken end-to-end flow, allowing detected anomalies to be published, consumed, and reported as operational issues.
 - for event in result["anomalies_detected"]:
         print(f"\nService: {event['service']}")
         print(f"Timestamp: {event['timestamp']}")
