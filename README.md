@@ -2,14 +2,81 @@
 
 <img src="https://octodex.github.com/images/Professortocat_v2.png" align="right" height="200px" />
 
-Hey there!
 
-Your challenge is ready.
-Follow the instructions provided for this challenge and complete the required tasks in this repository.
+### 1) Service being monitored
+- The monitored service is the payment-service.
+- It is a transaction-processing service whose health is tracked through:
+  - response time
+  - CPU utilization
+  - memory utilization
+  - log events such as errors and warnings
 
-Make sure your work is committed and pushed to your repository before submission.
+### 2) Operational problem being addressed
+- The main issue is degraded service health and potential failure in payment processing.
+- The telemetry shows symptoms like:
+  - unusually slow responses
+  - high CPU and memory usage
+  - timeout conditions and database connection errors
+- In operational terms, the pipeline is trying to catch incidents early before they become full outages or customer-facing failures.
 
-Good luck!
+### 3) Purpose of AIOps in this assessment
+- AIOps is used to automate anomaly detection from live data.
+- Instead of waiting for manual investigation,the system identifies patterns that suggest a problem as anomaly events.
+- The goal is to support faster detection, triage, and response to service issues in a modern operations environment.
+
+## Operational data
+
+### 1) Fields that represent metrics
+- response_time_msp
+- cpu_percent
+- memory_percent
+
+### 2) Fields that represent log information
+- log_level
+- message
+### 3) How timestamps are used
+- timestamp is the time marker for each observation.
+- it appears to be used as a sequence of minute-by-minute events.
+- it helps the system track changes over time and identify when the anomaly occurs.
+
+### 4) Observations that appear normal
+The normal-looking records are the ones with:
+- low response time: roughly 120–150 ms
+- CPU around 40-60%
+- memory around 50–60%
+- log_level = INFO
+- message = "Payment request processed successfully"
+
+These are the first, second, third, fourth, fifth, eighth, ninth, and tenth records.
+
+### 5) Observations that appear unusual
+The unusual records are the ones around 10:05 and 10:06:
+
+  {
+    "timestamp": "2026-09-20T10:05:00",
+    "service": "payment-service",
+    "response_time_ms": 610,
+    "cpu_percent": 75,
+    "memory_percent": 70,
+    "log_level": "ERROR",
+    "message": "Payment service timeout"
+  },
+
+{
+    "timestamp": "2026-09-20T10:06:00",
+    "service": "payment-service",
+    "response_time_ms": 640,
+    "cpu_percent": 94,
+    "memory_percent": 91,
+    "log_level": "ERROR",
+    "message": "Database connection timeout"
+  },
+
+These are unusual because they show:
+- a high increase in latency
+- high CPU and memory 
+- error-level logs
+- timeout failures
 
 
 ---
