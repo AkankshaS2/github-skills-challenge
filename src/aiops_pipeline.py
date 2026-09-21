@@ -55,7 +55,7 @@ if __name__ == "__main__":
 
     print("\nDetected Events:")
 
-    for event in result["events_consumed"]:
+    for event in result["anomalies_detected"]:
         print(f"\nService: {event['service']}")
         print(f"Timestamp: {event['timestamp']}")
         print(f"Type: {event['type']}")

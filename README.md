@@ -78,7 +78,24 @@ These are unusual because they show:
 - error-level logs
 - timeout failures
 
+## Part 3
+- I added a print step to every reponse sent by the anomaly_detector for each event to analyse if it is processing the events correctly.
+- So these were the observations:
+- The unflagged events whose metrics had values less than the given threshold were given the response None.
+- The flagged events (flagged as ANOMALY) had values greater than the defined thresholds. The    response for them contained the reasons for which they were flagged as ANOMALY.
+- {'timestamp': '2026-09-20T10:05:00', 'service': 'payment-service', 'type': 'ANOMALY', 'reasons': ['High response time'], 'source': {'timestamp': '2026-09-20T10:05:00', 'service': 'payment-service', 'response_time_ms': 610, 'cpu_percent': 75, 'memory_percent': 70, 'log_level': 'ERROR', 'message': 'Payment service timeout'}}
+- {'timestamp': '2026-09-20T10:06:00', 'service': 'payment-service', 'type': 'ANOMALY', 'reasons': ['High response time', 'High CPU utilization', 'High memory utilization'], 'source': {'timestamp': '2026-09-20T10:06:00', 'service': 'payment-service', 'response_time_ms': 640, 'cpu_percent': 94, 'memory_percent': 91, 'log_level': 'ERROR', 'message': 'Database connection timeout'}}
 
+- Although the anomaly_detector.py is giving the desired results, one improvement that I can suggest is lowering the response time threshold. From my observation the normal response time for a usual event is less than 300 and 400 ms. It only rises beyond this in case of an Anomaly or Error. This can help save the time in waiting for the response and improve the latency.
+
+## Part 4
+The aiops_pipeline.py does not display the detected events correctly.
+- Fixed it:
+- for event in result["anomalies_detected"]:
+        print(f"\nService: {event['service']}")
+        print(f"Timestamp: {event['timestamp']}")
+        print(f"Type: {event['type']}")
+        print(f"Reasons: {', '.join(event['reasons'])}")
 ---
 
 &copy; 2025 GitHub &bull; [Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct/code_of_conduct.md) &bull; [MIT License](https://gh.io/mit)
